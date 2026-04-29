@@ -21,13 +21,21 @@ export const APICall = async ({endpoint, method = "GET", data = null}) => {
 export const LoadingCase = (state) => {
     state.loading = true
     state.error = null
+    state.successMessage = null
 }
 export const Order_SuccessCase = (state, action) => {
     state.loading = false
+    state.successMessage = action.payload.message || "Operation successful"
     state.orders = action.payload.data
+}
+export const Login_SuccessCase = (state, action) => {
+    state.loading = false
+    state.successMessage = action.payload.message || "Login successful"
+    state.user = action.payload.data
 }
 export const FailedCase = (state, action) => {
     state.loading = false
-    state.error = action.error.message
-    console.error("Error:", action.error.message)
+    state.successMessage = null
+    state.error = action.payload.message || "An error occurred"
+    console.error("Error:", action.payload.message || action.payload)
 }
