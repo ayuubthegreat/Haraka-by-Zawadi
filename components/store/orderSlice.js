@@ -1,40 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { APICall, Order_SuccessCase, FailedCase, LoadingCase, Login_SuccessCase } from "./funcs"
+import { APICall, Order_SuccessCase, FailedCase, LoadingCase, Login_SuccessCase, Restaraunt_SuccessCase } from "./funcs"
 
 
 
 export const initialState = {
     orders: [],
-    user: null,
+    restaraunts: [],
     error: null,
     loading: false,
     successMessage: null // New state property for success messages (temporary, will be erased after showing to user)
 }
 
 
-export const RegisterUser = createAsyncThunk(
-    "auth/register",
-    async({user}, {rejectWithValue}) => {
-        try {
-            const response = await APICall({endpoint: "auth/register", method: "POST", data: user});
-            return response
-        } catch (error) {
-            return rejectWithValue(error.message)
-        }
-    }
-)
 
-export const LoginUser = createAsyncThunk(
-    "auth/login",
-    async({user}, {rejectWithValue}) => {
-        try {
-            const response = await APICall({endpoint: "auth/login", method: "POST", data: user});
-            return response
-        } catch (error) {
-            return rejectWithValue(error.message)
-        }
-    }
-)
 export const LoadOrders = createAsyncThunk(
     "orders/load",
     async(_, {rejectWithValue}) => {
@@ -83,14 +61,58 @@ export const DeleteOrder = createAsyncThunk(
     "orders/delete",
     async({id}, {rejectWithValue}) => {
         try {
-            const response = await APICall({endpoint: `orders/delete`, method: "POST", data: {id}})
+            const response = await APICall({endpoint: `orders/delete/${id}`, method: "DELETE"})
             return response
         } catch (error) {
             return rejectWithValue(error.message)
         }
     }
 )
-
+export const CreateRestaraunt = createAsyncThunk(
+    "restaraunts/create",
+    async (RestarauntData, {rejectWithValue}) => {
+        try {
+            const response = await APICall({endpoint: "restaraunts/create", method: "POST", data: RestarauntData})
+            return response
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+export const LoadRestaraunts = createAsyncThunk(
+    "restaraunts/load",
+    async (_, {rejectWithValue}) => {
+        try {
+            const response = await APICall({endpoint: "restaraunts/load", method: "GET"})
+            return response
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+export const UpdateRestaraunt = createAsyncThunk(
+    "restaraunts/update",
+    async ({id, RestarauntData}, {rejectWithValue}) => {
+        try {
+            const response = await APICall({endpoint: `restaraunts/update/${id}`, method: "PUT", data: RestarauntData})
+            return response
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+export const DeleteRestaraunt = createAsyncThunk(
+    "restaraunts/delete",
+    async ({id}, {rejectWithValue}) => {
+        try {
+            const response = await APICall({endpoint: `restaraunts/delete/${id}`, method: "DELETE"})
+            return response
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+           
 export const OrdersSlice = createSlice({
     name: "orders",
     initialState,
@@ -99,23 +121,9 @@ export const OrdersSlice = createSlice({
             state.error = null
             state.successMessage = null
         },
-        logout : (state) => {
-            state.user = null
-            state.orders = []
-            state.error = null
-            state.loading = false
-            state.successMessage = null
-        }
+        
     },
     extraReducers: (builder) => {
-        builder
-        .addCase(RegisterUser.pending, LoadingCase)
-        .addCase(RegisterUser.fulfilled, Login_SuccessCase)
-        .addCase(RegisterUser.rejected, FailedCase)
-        builder
-        .addCase(LoginUser.pending, LoadingCase)
-        .addCase(LoginUser.fulfilled, Login_SuccessCase)
-        .addCase(LoginUser.rejected, FailedCase)
         builder
         .addCase(LoadOrders.pending, LoadingCase)
         .addCase(LoadOrders.fulfilled, Order_SuccessCase)
@@ -132,6 +140,26 @@ export const OrdersSlice = createSlice({
         .addCase(UpdateOrder.pending, LoadingCase)
         .addCase(UpdateOrder.fulfilled, Order_SuccessCase)
         .addCase(UpdateOrder.rejected, FailedCase)
+        builder
+        .addCase(DeleteOrder.pending, LoadingCase)
+        .addCase(DeleteOrder.fulfilled, Order_SuccessCase)
+        .addCase(DeleteOrder.rejected, FailedCase)
+        builder
+        .addCase(CreateRestaraunt.pending, LoadingCase)
+        .addCase(CreateRestaraunt.fulfilled, Restaraunt_SuccessCase)
+        .addCase(CreateRestaraunt.rejected, FailedCase)
+        builder
+        .addCase(LoadRestaraunts.pending, LoadingCase)
+        .addCase(LoadRestaraunts.fulfilled, Restaraunt_SuccessCase)
+        .addCase(LoadRestaraunts.rejected, FailedCase)
+        builder
+        .addCase(UpdateRestaraunt.pending, LoadingCase)
+        .addCase(UpdateRestaraunt.fulfilled, Restaraunt_SuccessCase)
+        .addCase(UpdateRestaraunt.rejected, FailedCase)
+        builder
+        .addCase(DeleteRestaraunt.pending, LoadingCase)
+        .addCase(DeleteRestaraunt.fulfilled, Restaraunt_SuccessCase)
+        .addCase(DeleteRestaraunt.rejected, FailedCase)
     }
 })
 

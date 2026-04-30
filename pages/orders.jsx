@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./orders.css";
 import { useEffect } from "react";
-import { LoadOrders } from "../components/store/slice";
+import { LoadOrders } from "../components/store/orderSlice";
 
 export default function Orders() {
     const {orders, loading} = useSelector((state) => state.orders)

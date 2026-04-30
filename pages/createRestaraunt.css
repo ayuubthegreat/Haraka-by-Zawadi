@@ -1,0 +1,16 @@
+.item {
+   padding: 20px;
+   background-color: beige;
+    border: 7px solid #ccc;
+}
+.items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    border: 10px solid black;
+    margin-top: 20px;
+    padding: 10px 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: bisque;
+}

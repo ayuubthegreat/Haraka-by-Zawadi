@@ -1,28 +1,38 @@
 import { useForm } from "react-hook-form"
 import { orderTemplate } from "../components/store/schema"
 import { useDispatch, useSelector } from "react-redux";
-import { CreateOrder } from "../components/store/slice";
+import { CreateOrder, LoadRestaraunts } from "../components/store/orderSlice";
+import { useEffect, useState } from "react";
 
 export default function CreateOrderPage() {
-    const {orders, error, loading, successMessage} = useSelector((state) => state.orders)
+    const {orders, error, loading, successMessage, restaraunts} = useSelector((state) => state.orders)
+    const [restarauntIndex, setRestarauntIndex] = useState(-1);
     const patch = useDispatch();
     const {
         handleSubmit,
         register,
         reset,
-        setValues,
+        setValue,
+        getValues,
     } = useForm({
         defaultValues: orderTemplate
     });
+    useEffect(() => {
+        patch(LoadRestaraunts());
+    }, [patch]);
     const onSubmit = async (data) => {
-        console.log(typeof data.quantity)
         if (typeof data.quantity !== "number") {
             data.quantity = parseInt(data.quantity, 10);
         }
+        if (restarauntIndex === -1) {
+            console.error("No restaraunt selected");
+            return;
+        }
+        data.restarauntID = restaraunts[restarauntIndex].id;
         console.log("Form Data:", data);
         await patch(CreateOrder(data)).unwrap();
     }
-    console.log(orderTemplate)
+    console.log(restaraunts)
     return (
         <div className="create-order-page">
             <h1>Create Order</h1>
@@ -30,13 +40,29 @@ export default function CreateOrderPage() {
             <div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div>
+                        {restaraunts.length === 0 ? (
+                            <p>No restaraunts available. Please create a restaraunt first.</p>
+                        ) : (
+                           <>
                         <label>Menu Item:</label>
                         <select {...register("menuItem")}>
-                            <option value="">Select an item</option>
-                            <option value="Pizza">Pizza</option>
-                            <option value="Burger">Burger</option>
-                            <option value="Pasta">Pasta</option>
+                            <option value="">Select a menu item</option>
+                            {restarauntIndex !== -1 ? restaraunts[restarauntIndex].items.map(({ name }) => (
+                                <option key={name} value={name}>{name}</option>
+                            )) : null}
                         </select>
+                        <label>Restaraunt:</label>
+                        <select {...register("restaraunt")} onChange={(e) => { setRestarauntIndex(restaraunts.findIndex(r => r.name === e.target.value)); setValue("menuItem", ""); }}>
+                            <option value="">Select a restaraunt</option>
+                            {restaraunts.map((restaraunt, index) => (
+                                <option key={index} value={restaraunt.name}>
+                                    {restaraunt.name}
+                                </option>
+                            ))}
+                            
+                        </select>
+                        </>
+                        )}
                     </div>
                     <div>
                         <label>Quantity:</label>

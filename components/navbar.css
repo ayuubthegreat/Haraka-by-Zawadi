@@ -17,3 +17,11 @@ nav {
     color: #ff6347;
     cursor: pointer;
 }
+.userWelcome {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+.userRole {
+    font-size: 0.8rem;
+    color: #ccc;
+}

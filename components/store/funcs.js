@@ -33,6 +33,11 @@ export const Login_SuccessCase = (state, action) => {
     state.successMessage = action.payload.message || "Login successful"
     state.user = action.payload.data
 }
+export const Restaraunt_SuccessCase = (state, action) => {
+    state.loading = false
+    state.successMessage = action.payload.message || "Restaraunt created successfully"
+    state.restaraunts = action.payload.data
+}
 export const FailedCase = (state, action) => {
     state.loading = false
     state.successMessage = null

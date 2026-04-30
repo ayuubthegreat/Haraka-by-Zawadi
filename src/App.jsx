@@ -5,6 +5,7 @@ import Home from '../pages/home'
 import Orders from '../pages/orders'
 import CreateOrderPage from '../pages/createOrder'
 import { CreateRestarauntPage } from '../pages/createRestaraunt'
+import { LoginPage, RegisterPage } from '../pages/login_register'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,7 +19,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<h1>About</h1>} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/login" element={<h1>Login</h1>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/create-order" element={<CreateOrderPage />} />
           <Route path="/create-restaraunt" element={<CreateRestarauntPage />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
