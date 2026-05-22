@@ -29,6 +29,7 @@ export default function CreateOrderPage() {
             return;
         }
         data.restarauntID = restaraunts[restarauntIndex].id;
+        data.unitPrice = restaraunts[restarauntIndex].items.find(item => item.name === data.menuItem)?.price || 0;
         console.log("Form Data:", data);
         await patch(CreateOrder(data)).unwrap();
     }

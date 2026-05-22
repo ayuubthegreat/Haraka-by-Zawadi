@@ -6,6 +6,7 @@ export const initialState = {
     user: null,
     error: null,
     loading: false,
+    token: null,
     successMessage: null // New state property for success messages (temporary, will be erased after showing to user)
 }
 
@@ -32,6 +33,22 @@ export const LoginUser = createAsyncThunk(
         }
     }
 )
+export const GetCurrentUser = createAsyncThunk(
+    "auth/getCurrentUser",
+    async(_, {rejectWithValue}) => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                return rejectWithValue("No token found");
+            }
+            const response = await APICall({endpoint: `auth/getUser/${token}`, method: "GET"});
+            return response
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+);
+
 
 export const authSlice = createSlice({
     name: "auth",
@@ -42,6 +59,7 @@ export const authSlice = createSlice({
             state.error = null
             state.loading = false
             state.successMessage = null
+            localStorage.removeItem("token")
         }
     },
     extraReducers: (builder) => {
@@ -53,6 +71,10 @@ export const authSlice = createSlice({
         .addCase(LoginUser.pending, LoadingCase)
         .addCase(LoginUser.fulfilled, Login_SuccessCase)
         .addCase(LoginUser.rejected, FailedCase)
+        builder
+        .addCase(GetCurrentUser.pending, LoadingCase)
+        .addCase(GetCurrentUser.fulfilled, Login_SuccessCase)
+        .addCase(GetCurrentUser.rejected, FailedCase)
     }
 
 })

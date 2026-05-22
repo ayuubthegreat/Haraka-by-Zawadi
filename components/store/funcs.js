@@ -32,6 +32,7 @@ export const Login_SuccessCase = (state, action) => {
     state.loading = false
     state.successMessage = action.payload.message || "Login successful"
     state.user = action.payload.data
+    state.token = localStorage.setItem("token", action.payload.data.id)
 }
 export const Restaraunt_SuccessCase = (state, action) => {
     state.loading = false
