@@ -1,9 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./orders.css";
 import { useEffect, useState } from "react";
-import { DeleteOrder, LoadOrders, LoadRestaraunts } from "../components/store/orderSlice";
+import { DeleteOrder, LoadOrders, LoadRestaraunts, UpdateOrder } from "../../components/store/orderSlice";
+import { TranslatePrismaTimeToActualTime } from "../../components/store/funcs";
+import { da } from "zod/locales";
 
 export default function Orders() {
+     const {user} = useSelector((state) => state.auth);
+    const isAdmin = user && (user.role === "ADMIN" || user.role === "SUPA_ADMIN");
+    const isSupaAdmin = user && user.role === "SUPA_ADMIN";
     const {orders, loading, restaraunts} = useSelector((state) => state.orders)
     const [filteredRestaraunt, setFilteredRestaraunt] = useState({});
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, orderId: null });
@@ -12,6 +17,13 @@ export default function Orders() {
         patch(LoadOrders());
         patch(LoadRestaraunts());
     }, [patch]);
+
+    const markOrderAsCompleted = (orderId) => {
+        const order = orders.find((o) => o.id === orderId);
+        const updatedOrder = { ...order, readyToOrder: true };
+        patch(UpdateOrder({ OrderData: updatedOrder }));
+    };
+    
     return (
         <div className="orders-page">
             <h1>Orders</h1>
@@ -27,30 +39,24 @@ export default function Orders() {
                                     patch(DeleteOrder({ id: contextMenu.orderId }))
                                     setContextMenu({ visible: false, x: 0, y: 0, orderId: null });
                                 }}>Delete</button>
-                                <button>Mark as Completed</button>
+                                <button onClick={() => {
+                                    markOrderAsCompleted(contextMenu.orderId);
+                                    setContextMenu({ visible: false, x: 0, y: 0, orderId: null });
+                                }}>Mark as Completed</button>
                                 <button onClick={() => setContextMenu({ visible: false, x: 0, y: 0, orderId: null })}>Close</button>
                             </div>
                         )}
                        <div className="order-list">
-                            {orders.filter(order => order.restaraunt === filteredRestaraunt.id).map((order) => {
-                                setInterval(() => {
-                                    const orderElement = document.getElementById(order.id);
-                                    let waitingTime = order.waitingTime;
-                                    if (orderElement) {
-                                        waitingTime += 1;
-                                        console.log("Updating waiting time for order:", order.id, "Current waiting time:", waitingTime);
-                                        orderElement.style.backgroundColor = `rgba(255, 0, 0, ${waitingTime / 60})`;
-                                    }
-                                }, 1000)
+                            {orders.filter(order => order.restaraunt === filteredRestaraunt.id && !order.readyToOrder).map((order, index) => {
                                 return (
                                 <div onContextMenu={(e) => {
                                     e.preventDefault()
                                     setContextMenu({ visible: true, x: e.clientX, y: e.clientY, orderId: order.id })
                                 }} className="order-card" id={order.id} style={{backgroundColor: `rgba(255, 0, 0, ${order.waitingTime / 60})`}}>
-                                    <h2 className="order-number">Order #{order.orderNum}</h2>
+                                    <h2 className="order-number">Order #{index + 1}</h2>
                                     <h3 className="order-item">{order.menuItem}</h3>
                                     <p>Quantity: {order.quantity}</p>
-                                    <p>Waiting Time: {order.waitingTime} mins</p>
+                                    {isAdmin && <button onClick={() => markOrderAsCompleted(order.id)}>Mark as Completed</button>}
                                 </div>
                             )})}
                         </div>

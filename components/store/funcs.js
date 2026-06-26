@@ -45,3 +45,7 @@ export const FailedCase = (state, action) => {
     state.error = action.payload.message || "An error occurred"
     console.error("Error:", action.payload.message || action.payload)
 }
+export const TranslatePrismaTimeToActualTime = (prismaTime) => {
+    return new Date(prismaTime).getTime();
+
+}

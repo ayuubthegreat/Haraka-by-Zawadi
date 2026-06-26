@@ -50,7 +50,9 @@ export const UpdateOrder = createAsyncThunk(
     "orders/update",
     async({OrderData}, {rejectWithValue}) => {
         try {
-            const response = await APICall({endpoint: `orders/update`, method: "POST", data: OrderData})
+            console.log(OrderData)
+            const response = await APICall({endpoint: `orders/update/${OrderData.id}`, method: "POST", data: OrderData})
+            
             return response
         } catch (error) {
             return rejectWithValue(error.message)

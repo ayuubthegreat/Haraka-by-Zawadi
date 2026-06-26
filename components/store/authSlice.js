@@ -7,7 +7,8 @@ export const initialState = {
     error: null,
     loading: false,
     token: null,
-    successMessage: null // New state property for success messages (temporary, will be erased after showing to user)
+    successMessage: null, // New state property for success messages (temporary, will be erased after showing to user)
+    recentUsers: [],
 }
 
 export const RegisterUser = createAsyncThunk(
@@ -60,6 +61,10 @@ export const authSlice = createSlice({
             state.loading = false
             state.successMessage = null
             localStorage.removeItem("token")
+        },
+        addUser: (state, action) => {
+            const users = new Set([action.payload])
+            
         }
     },
     extraReducers: (builder) => {
@@ -78,5 +83,5 @@ export const authSlice = createSlice({
     }
 
 })
-export const {logout} = authSlice.actions
+export const {logout, addUser} = authSlice.actions
 export default authSlice.reducer

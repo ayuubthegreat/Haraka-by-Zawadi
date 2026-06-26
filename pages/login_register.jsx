@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { loginUserSchema, registerUserSchema } from "../components/store/schema"
 import { useDispatch } from "react-redux";
-import { LoginUser, RegisterUser } from "../components/store/authSlice";
+import { addUser, LoginUser, RegisterUser } from "../components/store/authSlice";
 import { useNavigate } from "react-router-dom";
 
 
@@ -19,6 +19,7 @@ export const LoginPage = () => {
             console.log("Form Data:", data);
             await patch(LoginUser({user:data})).unwrap();
             nav("/orders");
+            patch(addUser(data))
         }
     return (
         <div className="login-page">
@@ -34,6 +35,7 @@ export const LoginPage = () => {
                     <input type="password" {...register("password")} />
                 </div>
                 <button type="submit">Login</button>
+                
             </form>
         </div>
     )

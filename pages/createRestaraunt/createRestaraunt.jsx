@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux"
-import { restarauntTemplate } from "../components/store/schema";
-import { CreateRestaraunt, UpdateRestaraunt } from "../components/store/orderSlice";
+import { restarauntTemplate } from "../../components/store/schema";
+import { CreateRestaraunt, UpdateRestaraunt } from "../../components/store/orderSlice";
 import { useState } from "react";
 import "./createRestaraunt.css"
 

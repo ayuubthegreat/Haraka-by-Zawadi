@@ -6,9 +6,16 @@ nav {
     background-color: #333;
     color: #fff;
 }
-.nav-links {
+.nav-links  {
     display: flex;
+    align-items: center;
     gap: 1rem;
+}
+.expanded-link {
+    color: blue;
+}
+.mobile-links-revealer-parent {
+    display: none;
 }
 .title {
     transition: color 0.3s ease;
@@ -24,4 +31,48 @@ nav {
 .userRole {
     font-size: 0.8rem;
     color: #ccc;
+}
+.login-btn {
+    font-size: 1.3rem;
+    border: 2px solid white;
+    padding: 5px;
+    background-color: white;
+}
+.login-btn:hover {
+    background-color: black;
+    color: white;
+    border: 3px solid black;
+}
+.mobile-links-revealer {
+    position: absolute;
+    top: 8vh;
+    right: 5vw;
+    background-color: wheat;
+    padding: 20px;
+    z-index: 999;
+}
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    font-size: 2vh;
+}
+.background {
+    inset: 0;
+    position: absolute;
+    z-index: 998;
+
+}
+
+@media (max-width:1228px) {
+    .expanded-link {
+        display: none;
+    }
+    .mobile-links-revealer-parent {
+        display: flex;
+    }
+    .revealer-button {
+         padding: 10px;
+    color: black
+    }
+  
 }

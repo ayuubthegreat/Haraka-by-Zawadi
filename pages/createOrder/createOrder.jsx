@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
-import { orderTemplate } from "../components/store/schema"
+import { orderTemplate } from "../../components/store/schema"
 import { useDispatch, useSelector } from "react-redux";
-import { CreateOrder, LoadRestaraunts } from "../components/store/orderSlice";
+import { CreateOrder, LoadRestaraunts } from "../../components/store/orderSlice";
 import { useEffect, useState } from "react";
 
 export default function CreateOrderPage() {
