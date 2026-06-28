@@ -1,0 +1,64 @@
+.restaraunts-title {
+    margin-top: 8px;
+    font-size: 5vw;
+    text-align: center;
+}
+
+.restaraunts-list {
+    margin-top: 8vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+.restaraunts-users-section {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 200px;
+    overflow-y:scroll;
+}
+.restaraunts-user {
+    font-size: 15px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    background: black;
+    color: white;
+    padding: 4px;
+    border-radius: 10px;
+}
+.restaraunts-user:hover {
+    background: #333;
+    cursor: pointer;
+}
+
+
+.selected-restaraunt-items-list-parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.selected-restaraunt-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+    margin-top: 8px;
+}
+.selected-restaraunt-item {
+    background-color: #f0f0f0;
+    padding: 4vw;
+    border-radius: 8px;
+    text-align: center;
+    width: 50vw;
+}
+.restaraunt-item {
+    background-color: #f0f0f0;
+    padding: 6vw;
+    border-radius: 8px;
+    text-align: center;
+}
+.restaraunt-item:hover {
+    cursor: pointer;
+    background-color: #e0e0e0;
+}

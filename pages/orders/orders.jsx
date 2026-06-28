@@ -14,8 +14,7 @@ export default function Orders() {
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, orderId: null });
     const patch = useDispatch();
     useEffect(() => {
-        patch(LoadOrders());
-        patch(LoadRestaraunts());
+        
     }, [patch]);
 
     const markOrderAsCompleted = (orderId) => {

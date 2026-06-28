@@ -6,8 +6,11 @@ import Orders from '../pages/orders/orders'
 import CreateOrderPage from '../pages/createOrder/createOrder'
 import { CreateRestarauntPage } from '../pages/createRestaraunt/createRestaraunt'
 import { LoginPage, RegisterPage } from '../pages/login_register'
+import { LoadOrders, LoadRestaraunts } from '../components/store/orderSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetCurrentUser } from '../components/store/authSlice'
+import { GetCurrentUser, GetAllUsers } from '../components/store/authSlice'
+import { RestarauntsPage } from '../pages/restaraunt/restaraunts'
+import { AboutGeneral } from '../pages/about/about'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,17 +21,21 @@ function App() {
     if (localStorage.getItem("token") && !user) {
       // Fetch user data here
       patch(GetCurrentUser());
+     
     }
+    patch(GetAllUsers()); 
+    patch(LoadOrders());
+    patch(LoadRestaraunts());
   }, [token, user, patch]);
   return (
     <>
         <Router>
           <Navbar />
         <Routes>
-
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<h1>About</h1>} />
+          <Route path="/about" element={<AboutGeneral />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/restaraunts" element={<RestarauntsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/create-order" element={<CreateOrderPage />} />

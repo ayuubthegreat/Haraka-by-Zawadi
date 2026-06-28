@@ -31,12 +31,12 @@ export const Navbar = () => {
                     <span className="welcomeText">Welcome, {user.name}!</span>
                     <p style={{backgroundColor: isSupaAdmin ? "red" : isAdmin ? "orange" : "yellow"}} className="userRole">{user.role}</p>
                     </div>}
-                <Link className="expanded-link" to="/aboutZawadi">About Zawadi</Link>
-                <Link className="expanded-link" to="/about">About Haraka</Link>
+                <Link className="expanded-link" to="/about">About</Link>
                 {user && <Link className="expanded-link" to="/orders">Orders</Link>}
                 {!user && <Link className="expanded-link" to="/register">Register</Link>}
                 {!user && <Link className="expanded-link login-btn" to="/login">Login</Link>}
                 {isAdmin && <Link className="expanded-link" to="/create-order">Create Order</Link>}
+                {isAdmin && <Link className="expanded-link" to="/restaraunts">Your Restaraunts</Link>}
                 {isSupaAdmin && <Link className="expanded-link" to="/create-restaraunt">Create Restaraunt</Link>}
                 {user && <button onClick={() => {
                     patch(logout());
@@ -48,12 +48,12 @@ export const Navbar = () => {
                         </div>
                         <div className="mobile-links-revealer" style={{display: (isRevealed ? "flex" : "none")}} >
                         <div className="mobile-nav-links">
-                            <Link to="/aboutZawadi">About Zawadi</Link>
-                <Link to="/about">About Haraka</Link>
+                            <Link to="/about">About</Link>
                 {user && <Link className="mobile-link" to="/orders">Orders</Link>}
                 {!user && <Link className="mobile-link"  to="/register">Register</Link>}
                 {!user && <Link className="mobile-link login-btn" to="/login">Login</Link>}
                 {isAdmin && <Link className="mobile-link"  to="/create-order">Create Order</Link>}
+                  {isAdmin && <Link className="mobile-link" to="/restaraunts">Your Restaraunts</Link>}
                 {isSupaAdmin && <Link className="mobile-link" to="/create-restaraunt">Create Restaraunt</Link>}
                         </div>
                     </div>
