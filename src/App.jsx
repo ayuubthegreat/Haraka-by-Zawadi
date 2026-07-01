@@ -4,13 +4,16 @@ import { Navbar } from '../components/navbar'
 import Home from '../pages/home/home'
 import Orders from '../pages/orders/orders'
 import CreateOrderPage from '../pages/createOrder/createOrder'
+import UsersPage from '../pages/users/users'
 import { CreateRestarauntPage } from '../pages/createRestaraunt/createRestaraunt'
-import { LoginPage, RegisterPage } from '../pages/login_register'
+import { LoginPage, RegisterPage } from '../pages/login-register/login_register'
 import { LoadOrders, LoadRestaraunts } from '../components/store/orderSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetCurrentUser, GetAllUsers } from '../components/store/authSlice'
 import { RestarauntsPage } from '../pages/restaraunt/restaraunts'
 import { AboutGeneral } from '../pages/about/about'
+import { Footer } from '../components/footer'
+import { AuthenticateWall } from '../components/middleware/AuthenticateWall'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -35,13 +38,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutGeneral />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/restaraunts" element={<RestarauntsPage />} />
+          <Route path="/restaraunts" element={<AuthenticateWall isAdmin={true}><RestarauntsPage /></AuthenticateWall>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/create-order" element={<CreateOrderPage />} />
-          <Route path="/create-restaraunt" element={<CreateRestarauntPage />} />
+          <Route path="/create-order" element={<AuthenticateWall isAdmin={true}><CreateOrderPage /></AuthenticateWall>} />
+          <Route path="/create-restaraunt" element={<AuthenticateWall isSupaAdmin={true}><CreateRestarauntPage /></AuthenticateWall>} />
+          <Route path="/all-users" element={<AuthenticateWall isSupaAdmin={true}><UsersPage /></AuthenticateWall>} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
+        <Footer />
         </Router>
     </>
   )

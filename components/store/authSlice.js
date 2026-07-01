@@ -61,6 +61,28 @@ export const GetAllUsers = createAsyncThunk(
         }
     }
 )
+export const UpdateUser = createAsyncThunk(
+    "auth/updateUser",
+    async({userId, userData}, {rejectWithValue}) => {
+        try {
+            const response = await APICall({endpoint: `auth/updateUser/${userId}`, method: "PUT", data: userData});
+            return response
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+export const DeleteUser = createAsyncThunk(
+    "auth/deleteUser",
+    async({userId}, {rejectWithValue}) => {
+        try {
+            const response = await APICall({endpoint: `auth/deleteUser/${userId}`, method: "DELETE"});
+            return response
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
 
 
 export const authSlice = createSlice({
@@ -100,6 +122,14 @@ export const authSlice = createSlice({
             state.error = null;
         })
         .addCase(GetAllUsers.rejected, FailedCase)
+        builder
+        .addCase(UpdateUser.pending, LoadingCase)
+        .addCase(UpdateUser.fulfilled, (state, action) => {
+            state.allUsers = action.payload.data;
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(UpdateUser.rejected, FailedCase)
     }
 
 })

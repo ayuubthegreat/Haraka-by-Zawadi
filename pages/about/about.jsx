@@ -64,6 +64,17 @@ export const AboutGeneral = () => {
                 </div>
                 </div>
             </div>
-        </div>
+            <div id="contact" className="section">
+                <div className="header">
+                    <button onClick={() => revealOrHideSection("contact")}>Hide</button>
+                    <h2>Contact Us</h2>
+                </div>
+                <div className="descriptions">
+                    <div className="descriptionBox">
+                        <p>If you have any questions or need further information, please reach out to us via email at <a href="mailto:yusufayuub00@gmail.com">yusufayuub00@gmail.com</a>. If you prefer, you can also call us at <a href="tel:+1234567890">+1 (234) 567-890</a>.</p>
+                    </div>
+                </div>
+            </div>
+            </div>
     );
 }

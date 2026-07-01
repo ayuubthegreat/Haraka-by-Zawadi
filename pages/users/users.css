@@ -1,0 +1,13 @@
+.users-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.user-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+}
+.user-card p {
+    margin: 4px 0;
+}

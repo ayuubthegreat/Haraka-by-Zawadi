@@ -24,7 +24,7 @@ export const restarauntSchema = z.object({
 export const orderSchema = z.object({
     id: z.int(),
     user: z.string(),
-    menuItem: z.string(),
+    menuItemName: z.string(),
     orderedTime: z.int()
 })
 export const loginUserSchema = z.object({

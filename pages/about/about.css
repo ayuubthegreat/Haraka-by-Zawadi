@@ -8,6 +8,15 @@
 .textbox h1 {
     font-size: 48px;
 }
+@media (max-width: 768px) {
+    .textbox {
+        max-width: 100%;
+        padding: 10px;
+    }
+    .textbox h1 {
+        font-size: 36px;
+    }
+}
 .about-hero-section {
     padding: 50px;
     margin-top: 20px;

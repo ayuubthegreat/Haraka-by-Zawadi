@@ -61,9 +61,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="footer section">
-                <p>&copy; {new Date().getFullYear()} {BASE_DATA.NAME}. All rights reserved.</p>
-            </div>
+            
         </div>
     )
 }

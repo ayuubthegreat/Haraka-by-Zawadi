@@ -9,7 +9,7 @@ export const Navbar = () => {
     const nav = useNavigate();
     const patch = useDispatch();
     const {user} = useSelector((state) => state.auth);
-    const isAdmin = user && (user.role === "ADMIN" || user.role === "SUPA_ADMIN");
+    const isAdmin = user && (user.role === "admin" || user.role === "SUPA_ADMIN");
     const isSupaAdmin = user && user.role === "SUPA_ADMIN";
     const [isRevealed, setIsRevealed] = useState(false);
     const onClickMobileLinksRevealer = () => {
@@ -36,8 +36,9 @@ export const Navbar = () => {
                 {!user && <Link className="expanded-link" to="/register">Register</Link>}
                 {!user && <Link className="expanded-link login-btn" to="/login">Login</Link>}
                 {isAdmin && <Link className="expanded-link" to="/create-order">Create Order</Link>}
-                {isAdmin && <Link className="expanded-link" to="/restaraunts">Your Restaraunts</Link>}
+                {isAdmin && <Link className="expanded-link" to="/restaraunts">{isSupaAdmin ? "All" : "Your"} Restaraunts</Link>}
                 {isSupaAdmin && <Link className="expanded-link" to="/create-restaraunt">Create Restaraunt</Link>}
+                {isSupaAdmin && <Link className="expanded-link" to="/all-users">All Users</Link>}
                 {user && <button onClick={() => {
                     patch(logout());
                     nav("/login");
@@ -53,8 +54,9 @@ export const Navbar = () => {
                 {!user && <Link className="mobile-link"  to="/register">Register</Link>}
                 {!user && <Link className="mobile-link login-btn" to="/login">Login</Link>}
                 {isAdmin && <Link className="mobile-link"  to="/create-order">Create Order</Link>}
-                  {isAdmin && <Link className="mobile-link" to="/restaraunts">Your Restaraunts</Link>}
+                  {isAdmin && <Link className="mobile-link" to="/restaraunts">{isSupaAdmin ? "All" : "Your"} Restaraunts</Link>}
                 {isSupaAdmin && <Link className="mobile-link" to="/create-restaraunt">Create Restaraunt</Link>}
+                {isSupaAdmin && <Link className="mobile-link" to="/all-users">All Users</Link>}
                         </div>
                     </div>
                     

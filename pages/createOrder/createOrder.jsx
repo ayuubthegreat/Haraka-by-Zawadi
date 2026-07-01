@@ -5,6 +5,7 @@ import { CreateOrder, LoadRestaraunts } from "../../components/store/orderSlice"
 import { useEffect, useState } from "react";
 
 export default function CreateOrderPage() {
+    const {user} = useSelector((state) => state.auth);
     const {orders, error, loading, successMessage, restaraunts} = useSelector((state) => state.orders)
     const [restarauntIndex, setRestarauntIndex] = useState(-1);
     const patch = useDispatch();
@@ -28,8 +29,15 @@ export default function CreateOrderPage() {
             console.error("No restaraunt selected");
             return;
         }
+        data.menuItem = restaraunts[restarauntIndex].items.find(item => item.name === data.menuItemName);
+        if (data.menuItem == null) {
+            console.error(`Menu item not found: ${data.menuItemName}`);
+            return;
+        }
+        data.menuItemID = data.menuItem.id;
+        data.itemID = data.menuItem.id;
         data.restarauntID = restaraunts[restarauntIndex].id;
-        data.unitPrice = restaraunts[restarauntIndex].items.find(item => item.name === data.menuItem)?.price || 0;
+        data.unitPrice = data.menuItem.price;
         console.log("Form Data:", data);
         await patch(CreateOrder(data)).unwrap();
     }
@@ -46,16 +54,16 @@ export default function CreateOrderPage() {
                         ) : (
                            <>
                         <label>Menu Item:</label>
-                        <select {...register("menuItem")}>
-                            <option value="">Select a menu item</option>
-                            {restarauntIndex !== -1 ? restaraunts[restarauntIndex].items.map(({ name }) => (
-                                <option key={name} value={name}>{name}</option>
+                        <select {...register("menuItemName")}>
+                            <option value={""}>Select a menu item</option>
+                            {restarauntIndex !== -1 ? restaraunts[restarauntIndex].items.map((item) => (
+                                <option key={item.id} value={item.name}>{item.name}</option>
                             )) : null}
                         </select>
                         <label>Restaraunt:</label>
                         <select {...register("restaraunt")} onChange={(e) => { setRestarauntIndex(restaraunts.findIndex(r => r.name === e.target.value)); setValue("menuItem", ""); }}>
                             <option value="">Select a restaraunt</option>
-                            {restaraunts.map((restaraunt, index) => (
+                            {restaraunts.filter(restaraunt => (restaraunt.adminIDs.includes(user.id) || user.role === "SUPA_ADMIN")).map((restaraunt, index) => (
                                 <option key={index} value={restaraunt.name}>
                                     {restaraunt.name}
                                 </option>
